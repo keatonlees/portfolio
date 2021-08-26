@@ -21,6 +21,9 @@ import iconFirst from "../images/icon_first.png";
 // conclusion / future steps (the future)
 
 export const ProjectsList = [
+  // {
+
+  // },
   {
     name: "Octo-Do",
     marqueeName: "Octo-Do",
