@@ -1,33 +1,42 @@
-// import gsap from "gsap";
-// import { ScrollToPlugin } from "gsap/ScrollToPlugin";
-// import { ScrollTrigger } from "gsap/ScrollTrigger";
-// import React, { useEffect } from "react";
+/* eslint-disable @next/next/no-img-element */
+import { Github, Instagram, Linkedin, Mail, MapPin } from "lucide-react";
 
 export default function Hero() {
-  // gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
-
-  // useEffect(() => {
-  //   gsap.to("#hero-title", {
-  //     scrollTrigger: {
-  //       trigger: "#hero-title",
-  //       pin: true,
-  //       start: "top 0px",
-  //       end: "+=50%",
-  //       scrub: 1,
-  //       markers: true, // Remove this in production
-  //     },
-  //     scale: 0.1,
-  //     x: "-600px", // distance from left
-  //     y: "50px", // distance from top
-  //     ease: "none",
-  //   });
-  // }, []);
+  const ICON = 48;
 
   return (
-    <div className="bg-amber-500 w-full h-screen relative">
-      {/* <h1 id="hero-title" className="font-title font-bold text-[12vw]">
-        Keaton Lees
-      </h1> */}
+    <div className="w-full h-screen overflow-hidden bg-accent">
+      <img
+        src={"/images/headshot.png"}
+        alt="hero-img"
+        className="absolute h-[95%] bottom-0 left-[45vw] z-20"
+      />
+
+      <div className="absolute flex justify-between w-full px-32 top-[50vh]">
+        <div>
+          <h1 className="text-6xl font-bold">Full Stack Engineer</h1>
+          <h1 className="text-2xl max-w-[25vw]">
+            💻Developer by day, 🏐Volleyball player by night, 🍣Foodie all the
+            time
+          </h1>
+        </div>
+        <div className="flex gap-4">
+          <Mail size={ICON} />
+          <Linkedin size={ICON} />
+          <Github size={ICON} />
+          <Instagram size={ICON} />
+        </div>
+      </div>
+
+      <div className="absolute flex justify-between items-end w-full px-32 bottom-8">
+        <div className="flex gap-1">
+          <MapPin />
+          <h1 className="text-2xl">Vancouver, Canada</h1>
+        </div>
+        <div>
+          <h1 className="text-2xl">Scroll Down</h1>
+        </div>
+      </div>
     </div>
   );
 }

@@ -85,11 +85,11 @@ export default function LoadingScreen({
         bottom: 0,
       }}
     >
-      <div id="loading-top" className="w-full h-[48%] bg-primary"></div>
+      <div id="loading-top" className="w-full h-[48%] bg-secondary"></div>
 
       <div
         id="loading-middle"
-        className="h-[4%] w-full bg-primary flex items-end justify-center"
+        className="h-[4%] w-full bg-secondary flex items-end justify-center"
       >
         <div
           id="loading-mask-container"
@@ -109,7 +109,7 @@ export default function LoadingScreen({
         </div>
       </div>
 
-      <div id="loading-bottom" className="w-full h-[48%] bg-primary"></div>
+      <div id="loading-bottom" className="w-full h-[48%] bg-secondary"></div>
     </div>
   );
 }
