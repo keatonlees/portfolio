@@ -2,12 +2,14 @@
 
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useTransitionRouter } from "next-view-transitions";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { Fragment, useEffect } from "react";
 
 export default function Navbar() {
-  const path = usePathname();
+  const router = useTransitionRouter();
+  const pathname = usePathname();
   gsap.registerPlugin(ScrollTrigger);
 
   const links = [
@@ -20,7 +22,7 @@ export default function Navbar() {
   useEffect(() => {
     ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
 
-    if (path === "/") {
+    if (pathname === "/") {
       gsap.set("#big-title", {
         scale: 9,
         x: "48vw",
@@ -58,12 +60,42 @@ export default function Navbar() {
     return () => {
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
-  }, [path]);
+  }, [pathname]);
+
+  function triggerPageTransition() {
+    document.documentElement.animate(
+      [
+        {
+          clipPath: "polygon(25% 75%, 75% 75%, 75% 75%, 25% 75%)",
+        },
+        {
+          clipPath: "polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)",
+        },
+      ],
+      {
+        duration: 2000,
+        easing: "cubic-bezier(0.9, 0, 0.1, 1)",
+        pseudoElement: "::view-transition-new(root)",
+      }
+    );
+  }
+
+  const handleNavigation =
+    (path: string) => (e: { preventDefault: () => void }) => {
+      if (path === pathname) {
+        e.preventDefault();
+        return;
+      }
+
+      router.push(path, {
+        onTransitionReady: triggerPageTransition,
+      });
+    };
 
   return (
     <div className="fixed w-full h-16 flex justify-between items-center px-8 text-xl z-10 glass-sm">
       <div>
-        {path === "/" ? (
+        {pathname === "/" ? (
           <h1
             id="big-title"
             className="font-title font-bold text-2xl text-shadow relative"
@@ -71,7 +103,11 @@ export default function Navbar() {
             Keaton Lees
           </h1>
         ) : (
-          <Link href="/" className="font-title font-bold text-2xl text-shadow">
+          <Link
+            href="/"
+            onClick={handleNavigation("/")}
+            className="font-title font-bold text-2xl text-shadow"
+          >
             Keaton Lees
           </Link>
         )}
@@ -79,7 +115,11 @@ export default function Navbar() {
       <div className="flex items-center gap-4">
         {links.map((link, i) => (
           <Fragment key={i}>
-            <Link href={link.path} className="text-2xl">
+            <Link
+              href={link.path}
+              onClick={handleNavigation(link.path)}
+              className={`text-2xl ${link.path === pathname && "underline"}`}
+            >
               {link.label}
             </Link>
             {i < links.length - 1 && <span>/</span>}

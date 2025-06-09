@@ -1,6 +1,7 @@
 import ImagePreloader from "@/components/ImagePreloader";
 import Navbar from "@/components/Navbar";
 import type { Metadata } from "next";
+import { ViewTransitions } from "next-view-transitions";
 import { Josefin_Sans, Unbounded } from "next/font/google";
 import "./globals.css";
 
@@ -25,14 +26,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-theme="dark">
-      <body
-        className={`${josefinSans.className} ${unbounded.variable} antialiased`}
-      >
-        <ImagePreloader />
-        <Navbar />
-        {children}
-      </body>
-    </html>
+    <ViewTransitions>
+      <html lang="en" data-theme="dark">
+        <body
+          className={`${josefinSans.className} ${unbounded.variable} antialiased`}
+        >
+          <ImagePreloader />
+          <Navbar />
+          {children}
+        </body>
+      </html>
+    </ViewTransitions>
   );
 }
