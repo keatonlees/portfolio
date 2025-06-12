@@ -1,19 +1,29 @@
 "use client";
 
 /* eslint-disable @next/next/no-img-element */
-import { useRevealer } from "@/hooks/useRevealer";
+import PageTransition from "@/components/PageTransition";
+import { usePageTransition } from "@/hooks/usePageTransition";
 import gsap from "gsap";
 import { Flip } from "gsap/Flip";
-import { useRouter } from "next/navigation";
-import React from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
+
 import "./work.css";
 
+gsap.registerPlugin(Flip);
+
 export default function Work() {
-  useRevealer();
-
-  gsap.registerPlugin(Flip);
-
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const [showTransition, setShowTransition] = useState(false);
+
+  useEffect(() => {
+    const previousPath = document.referrer;
+    const isFromNonNestedRoute = !previousPath.includes("/work/");
+    const isFromProjectPage = searchParams.get("p") === "true";
+    setShowTransition(isFromNonNestedRoute && !isFromProjectPage);
+  }, [searchParams]);
 
   const handleProject = (e: React.MouseEvent<HTMLDivElement>, path: string) => {
     const card = e.currentTarget;
@@ -41,9 +51,10 @@ export default function Work() {
     });
   };
 
+  usePageTransition(showTransition);
   return (
     <>
-      <div className="revealer"></div>
+      {showTransition && <PageTransition />}
 
       <div className="w-full flex flex-col justify-center items-center gap-2 pt-20">
         <h1 className="text-8xl font-title">Work</h1>

@@ -1,22 +1,24 @@
 "use client";
 
 import Hero from "@/components/Hero";
-import { useRevealer } from "@/hooks/useRevealer";
+import PageTransition from "@/components/PageTransition";
+import { usePageTransition } from "@/hooks/usePageTransition";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
 // /* eslint-disable @next/next/no-img-element */
 export default function Home() {
-  useRevealer();
-
+  usePageTransition();
   const pathname = usePathname();
+
   useEffect(() => {
     window.scroll(0, 0);
   }, [pathname]);
 
   return (
     <>
-      <div className="revealer"></div>
+      <PageTransition />
+
       <div>
         <Hero />
 

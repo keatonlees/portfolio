@@ -7,15 +7,16 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { Fragment, useEffect } from "react";
 
+gsap.registerPlugin(ScrollTrigger);
+
 export default function Navbar() {
   const router = useTransitionRouter();
   const pathname = usePathname();
-  gsap.registerPlugin(ScrollTrigger);
 
   const links = [
-    // { label: "Home", path: "/" },
     { label: "Work", path: "/work" },
     { label: "About", path: "/about" },
+    { label: "Fun", path: "/fun" },
     { label: "Resume", path: "/resume" },
   ];
 
@@ -87,9 +88,17 @@ export default function Navbar() {
         return;
       }
 
-      router.push(path, {
-        onTransitionReady: triggerPageTransition,
-      });
+      if (path === "/work" && !pathname.startsWith("/work/")) {
+        router.push(path, {
+          onTransitionReady: triggerPageTransition,
+        });
+      } else if (path !== "/work") {
+        router.push(path, {
+          onTransitionReady: triggerPageTransition,
+        });
+      } else {
+        router.push(path);
+      }
     };
 
   return (
@@ -118,7 +127,10 @@ export default function Navbar() {
             <Link
               href={link.path}
               onClick={handleNavigation(link.path)}
-              className={`text-2xl ${link.path === pathname && "underline"}`}
+              className={`text-2xl ${
+                (link.path === pathname || pathname.startsWith(link.path)) &&
+                "underline pointer-events-none"
+              }`}
             >
               {link.label}
             </Link>

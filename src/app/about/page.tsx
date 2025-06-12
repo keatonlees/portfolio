@@ -1,15 +1,16 @@
 "use client";
 
+import PageTransition from "@/components/PageTransition";
 /* eslint-disable @next/next/no-img-element */
-import { useRevealer } from "@/hooks/useRevealer";
+import { usePageTransition } from "@/hooks/usePageTransition";
 import React from "react";
 
 export default function About() {
-  useRevealer();
+  usePageTransition();
 
   return (
     <>
-      <div className="revealer"></div>
+      <PageTransition />
 
       <div className="w-full h-screen flex flex-col justify-center items-center gap-2">
         <h1 className="text-8xl font-title">About</h1>
