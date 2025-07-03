@@ -1,5 +1,6 @@
 "use client";
 
+import { triggerPageTransition } from "@/hooks/usePageTransition";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useTransitionRouter } from "next-view-transitions";
@@ -14,9 +15,9 @@ export default function Navbar() {
   const pathname = usePathname();
 
   const links = [
-    { label: "Work", path: "/work" },
+    { label: "Projects", path: "/projects" },
     { label: "About", path: "/about" },
-    { label: "Fun", path: "/fun" },
+    { label: "Stash", path: "/fun" },
     { label: "Resume", path: "/resume" },
   ];
 
@@ -63,24 +64,6 @@ export default function Navbar() {
     };
   }, [pathname]);
 
-  function triggerPageTransition() {
-    document.documentElement.animate(
-      [
-        {
-          clipPath: "polygon(25% 75%, 75% 75%, 75% 75%, 25% 75%)",
-        },
-        {
-          clipPath: "polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)",
-        },
-      ],
-      {
-        duration: 2000,
-        easing: "cubic-bezier(0.9, 0, 0.1, 1)",
-        pseudoElement: "::view-transition-new(root)",
-      }
-    );
-  }
-
   const handleNavigation =
     (path: string) => (e: { preventDefault: () => void }) => {
       if (path === pathname) {
@@ -88,11 +71,11 @@ export default function Navbar() {
         return;
       }
 
-      if (path === "/work" && !pathname.startsWith("/work/")) {
+      if (path === "/projects" && !pathname.startsWith("/projects/")) {
         router.push(path, {
           onTransitionReady: triggerPageTransition,
         });
-      } else if (path !== "/work") {
+      } else if (path !== "/projects") {
         router.push(path, {
           onTransitionReady: triggerPageTransition,
         });
@@ -105,32 +88,37 @@ export default function Navbar() {
     <div className="fixed w-full h-16 flex justify-between items-center px-8 text-xl z-10 glass-sm">
       <div>
         {pathname === "/" ? (
-          <h1
+          <div
             id="big-title"
-            className="font-title font-bold text-2xl text-shadow relative"
+            className="font-title font-bold text-2xl text-shadow relative flex gap-3"
           >
-            Keaton Lees
-          </h1>
+            <h1>Keaton</h1>
+            <h1>Lees</h1>
+          </div>
         ) : (
           <Link
             href="/"
             onClick={handleNavigation("/")}
-            className="font-title font-bold text-2xl text-shadow"
+            className="font-title font-bold text-2xl text-shadow flex gap-3"
           >
-            Keaton Lees
+            <h1>Keaton</h1>
+            <h1>Lees</h1>
           </Link>
         )}
       </div>
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-6">
         {links.map((link, i) => (
           <Fragment key={i}>
             <Link
               href={link.path}
               onClick={handleNavigation(link.path)}
-              className={`text-2xl ${
+              className={`text-2xl decoration-secondary ${
                 (link.path === pathname || pathname.startsWith(link.path)) &&
                 "underline pointer-events-none"
               }`}
+              aria-disabled={
+                link.path === pathname || pathname.startsWith(link.path)
+              }
             >
               {link.label}
             </Link>

@@ -95,7 +95,7 @@ export default function LoadingScreen({
           id="loading-mask-container"
           className="relative text-6xl font-title font-bold text-black -mb-3"
         >
-          <h1 className="opacity-25">LOADING...</h1>
+          <h1 className="opacity-25">Loading...</h1>
           <h1
             id="loading-mask"
             className="absolute top-0 left-0 bg-white w-0"
@@ -104,7 +104,7 @@ export default function LoadingScreen({
               WebkitTextFillColor: "transparent",
             }}
           >
-            LOADING...
+            Loading...
           </h1>
         </div>
       </div>

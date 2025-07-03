@@ -1,5 +1,9 @@
 "use client";
 
+// hero
+// project spotlight
+// footer
+
 import Hero from "@/components/Hero";
 import PageTransition from "@/components/PageTransition";
 import { usePageTransition } from "@/hooks/usePageTransition";
@@ -19,11 +23,9 @@ export default function Home() {
     <>
       <PageTransition />
 
-      <div>
-        <Hero />
+      <Hero />
 
-        <div className="h-[200vh]"></div>
-      </div>
+      <div className="relative h-[200vh] z-2 bg-base-100">TEST</div>
     </>
   );
 }

@@ -1,9 +1,8 @@
 "use client";
 
-// blurb
-// work experience
-// skills
-// education
+// random interactions
+// travel
+// photos
 
 /* eslint-disable @next/next/no-img-element */
 import PageTransition from "@/components/PageTransition";
@@ -18,13 +17,9 @@ export default function About() {
       <PageTransition />
 
       <div className="w-full h-screen flex flex-col justify-center items-center gap-2">
-        <h1 className="text-8xl font-title">About</h1>
+        <h1 className="text-8xl font-title">Fun</h1>
         <div className="flex">
-          <img
-            src="/images/headshot_grad.jpg"
-            alt="home_img"
-            className="w-96"
-          />
+          <img src="/images/headshot_2.png" alt="home_img" className="w-96" />
         </div>
       </div>
     </>

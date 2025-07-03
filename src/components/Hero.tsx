@@ -5,11 +5,11 @@ export default function Hero() {
   const ICON = 48;
 
   return (
-    <div className="w-full h-screen overflow-hidden bg-accent">
+    <div className="w-full h-screen bg-accent">
       <img
         src={"/images/headshot.png"}
         alt="hero-img"
-        className="absolute h-[95%] bottom-0 left-[45vw] z-20"
+        className="absolute h-[95%] bottom-0 left-[46vw] z-20"
       />
 
       <div className="absolute flex justify-between w-full px-32 top-[50vh]">
