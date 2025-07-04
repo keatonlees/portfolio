@@ -5,7 +5,7 @@
 // footer
 
 import Hero from "@/components/Hero";
-import PageTransition from "@/components/PageTransition";
+import PageTransition from "@/components/navigation/PageTransition";
 import { usePageTransition } from "@/hooks/usePageTransition";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";

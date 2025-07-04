@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { Github, Instagram, Linkedin, Mail, MapPin } from "lucide-react";
+import CursorCircleText from "./cursors/CursorCircleText";
 
 export default function Hero() {
   const ICON = 48;
@@ -34,7 +35,7 @@ export default function Hero() {
           <h1 className="text-2xl">Vancouver, Canada</h1>
         </div>
         <div>
-          <h1 className="text-2xl">Scroll Down</h1>
+          <CursorCircleText />
         </div>
       </div>
     </div>

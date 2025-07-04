@@ -12,7 +12,7 @@
 // footer
 
 /* eslint-disable @next/next/no-img-element */
-import PageTransition from "@/components/PageTransition";
+import PageTransition from "@/components/navigation/PageTransition";
 import { usePageTransition } from "@/hooks/usePageTransition";
 import gsap from "gsap";
 import { Flip } from "gsap/Flip";
