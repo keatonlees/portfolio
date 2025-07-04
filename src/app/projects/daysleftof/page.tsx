@@ -8,11 +8,11 @@ import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { handleBack } from "../actions";
 
-export default function Souvenr() {
+export default function DaysLeftOf() {
   const router = useRouter();
 
-  const p = Projects.find((proj) => proj.id === "souvenr");
-  const i = Projects.findIndex((proj) => proj.id === "souvenr");
+  const p = Projects.find((proj) => proj.id === "daysleftof");
+  const i = Projects.findIndex((proj) => proj.id === "daysleftof");
 
   useEffect(() => {
     gsap.to(".fade", {

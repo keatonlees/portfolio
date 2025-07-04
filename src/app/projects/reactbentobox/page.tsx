@@ -8,11 +8,11 @@ import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { handleBack } from "../actions";
 
-export default function Souvenr() {
+export default function ReactBentoBox() {
   const router = useRouter();
 
-  const p = Projects.find((proj) => proj.id === "souvenr");
-  const i = Projects.findIndex((proj) => proj.id === "souvenr");
+  const p = Projects.find((proj) => proj.id === "reactbentobox");
+  const i = Projects.findIndex((proj) => proj.id === "reactbentobox");
 
   useEffect(() => {
     gsap.to(".fade", {

@@ -20,7 +20,7 @@ import { Flip } from "gsap/Flip";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-import Chip from "@/components/base/Chip";
+import ProjectCard from "@/components/projects/ProjectCard";
 import { Projects as Data } from "@/data/Projects";
 import "./projects.css";
 
@@ -89,6 +89,7 @@ export default function Projects() {
     numbering?.classList.toggle("numbering-space");
     content?.classList.toggle("content");
     glance?.classList.toggle("glance");
+    glance?.classList.toggle("glance-space");
     setTimeout(() => {
       glance?.classList.toggle("glance-align");
     }, 350);
@@ -127,35 +128,7 @@ export default function Projects() {
             id={`${p.id}-card`}
             className="projectCard-initial border-1 border-neutral-500 rounded flex cursor-pointer"
           >
-            <div id={`${p.id}-group`} className="group px-8">
-              <div
-                id={`${p.id}-numbering`}
-                className="numbering flex items-center"
-              >
-                <h1 className="text-9xl font-bold mt-6">
-                  {i + 1 > 9 ? i + 1 : `0${i + 1}`}
-                </h1>
-              </div>
-              <div
-                id={`${p.id}-content`}
-                className="content flex flex-col justify-center"
-              >
-                <h1 className="font-title font-bold text-shadow text-5xl">
-                  {p.name}
-                </h1>
-                <div className="flex gap-1">
-                  {p.tools.map((tool, i) => (
-                    <Chip key={i}>{tool}</Chip>
-                  ))}
-                </div>
-              </div>
-              <div
-                id={`${p.id}-glance`}
-                className="glance glance-align flex items-center"
-              >
-                <h1>{p.glance}</h1>
-              </div>
-            </div>
+            <ProjectCard p={p} i={i} />
 
             <div
               id="bg"
