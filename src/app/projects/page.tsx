@@ -19,6 +19,7 @@ import { Flip } from "gsap/Flip";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
+import Chip from "@/components/base/Chip";
 import { Projects as Data } from "@/data/Projects";
 import "./projects.css";
 
@@ -60,35 +61,49 @@ export default function Projects() {
     }
   };
 
-  const handleProject = (
-    e: React.MouseEvent<HTMLDivElement>,
-    bg: string,
-    path: string
-  ) => {
+  const handleProject = (e: React.MouseEvent<HTMLDivElement>, id: string) => {
     setIsAnimating(true);
 
+    // get elements
     const card = e.currentTarget;
+    const group = document.querySelector(`#${id}-group`);
+    const numbering = document.querySelector(`#${id}-numbering`);
+    const content = document.querySelector(`#${id}-content`);
+    const glance = document.querySelector(`#${id}-glance`);
 
+    const state = Flip.getState(
+      `#${card.id}, #${id}-group, #${id}-numbering, #${id}-content, #${id}-glance`
+    );
+
+    // create layout clone
     const placeholder = card.cloneNode(true) as HTMLDivElement;
     placeholder.style.opacity = "0";
     card.parentNode?.insertBefore(placeholder, card.nextSibling);
 
-    const state = Flip.getState(card);
+    card.classList.remove("projectCard-initial");
+    card.classList.add("projectCard-final");
 
-    card.classList.remove("projectCardInitial");
-    card.classList.add("projectCardFinal");
+    group?.classList.toggle("reorder");
+    numbering?.classList.toggle("numbering");
+    numbering?.classList.toggle("numbering-space");
+    content?.classList.toggle("content");
+    glance?.classList.toggle("glance");
+    setTimeout(() => {
+      glance?.classList.toggle("glance-align");
+    }, 350);
 
-    gsap.to(".projectCardInitial", {
+    gsap.to(".projectCard-initial", {
       opacity: 0,
       duration: 0.5,
       ease: "power2.inOut",
     });
 
     Flip.from(state, {
+      absolute: true,
       duration: 1,
       ease: "power2.inOut",
       onComplete: () => {
-        router.push(path);
+        router.push(`/projects/${id}`);
       },
     });
   };
@@ -105,19 +120,45 @@ export default function Projects() {
         {Data.map((p, i) => (
           <div
             key={i}
-            onClick={(e) => handleProject(e, p.theme, `/projects/${p.id}`)}
+            onClick={(e) => handleProject(e, p.id)}
             onMouseEnter={(e) => handleHover(e, true)}
             onMouseLeave={(e) => handleHover(e, false)}
-            className="projectCardInitial border-1 border-neutral-500 rounded p-4 flex items-center cursor-pointer"
+            id={`${p.id}-card`}
+            className="projectCard-initial border-1 border-neutral-500 rounded flex cursor-pointer"
           >
-            <div className="z-2">
-              <h1>0{i + 1}</h1>
-              <h1>{p.name}</h1>
-              <h1>{p.glance}</h1>
+            <div id={`${p.id}-group`} className="group px-8">
+              <div
+                id={`${p.id}-numbering`}
+                className="numbering flex items-center"
+              >
+                <h1 className="text-9xl font-bold mt-6">
+                  {i + 1 > 9 ? i + 1 : `0${i + 1}`}
+                </h1>
+              </div>
+              <div
+                id={`${p.id}-content`}
+                className="content flex flex-col justify-center"
+              >
+                <h1 className="font-title font-bold text-shadow text-5xl">
+                  {p.name}
+                </h1>
+                <div className="flex gap-1">
+                  {p.tools.map((tool, i) => (
+                    <Chip key={i}>{tool}</Chip>
+                  ))}
+                </div>
+              </div>
+              <div
+                id={`${p.id}-glance`}
+                className="glance glance-align flex items-center"
+              >
+                <h1>{p.glance}</h1>
+              </div>
             </div>
+
             <div
               id="bg"
-              className="absolute w-full h-full top-0 left-0"
+              className="absolute w-full h-full top-0 left-0 z-[-1]"
               style={{
                 background: p.theme,
                 transform: "translateY(100%)",

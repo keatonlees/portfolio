@@ -1,11 +1,10 @@
-.projectCardInitial {
+.projectCard-initial {
   width: 60vw;
   height: 200px;
   position: relative;
   overflow: hidden;
 }
-
-.projectCardInitial::before {
+.projectCard-initial::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -14,10 +13,39 @@
   transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.projectCardFinal {
+.group {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  transition: 0.3s all;
+  will-change: transform;
+}
+.reorder {
+  display: flex;
+  flex-direction: column;
+}
+
+.numbering {
+  flex: 1;
+}
+.numbering-space {
+  margin-top: 100px;
+}
+.content {
+  flex: 3;
+}
+.glance {
+  flex: 1.5;
+}
+.glance-align {
+  text-align: right;
+  justify-content: flex-end;
+}
+
+.projectCard-final {
   position: fixed;
-  top: 0;
-  left: 0;
+  top: -1;
+  left: -1;
   width: 50vw;
   height: 100vh;
   z-index: 2;
