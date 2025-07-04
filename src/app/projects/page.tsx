@@ -14,9 +14,10 @@
 /* eslint-disable @next/next/no-img-element */
 import PageTransition from "@/components/navigation/PageTransition";
 import { usePageTransition } from "@/hooks/usePageTransition";
+import { usePreviousRoute } from "@/hooks/usePreviousRoute";
 import gsap from "gsap";
 import { Flip } from "gsap/Flip";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 import Chip from "@/components/base/Chip";
@@ -27,17 +28,17 @@ gsap.registerPlugin(Flip);
 
 export default function Projects() {
   const router = useRouter();
-  const searchParams = useSearchParams();
+  const prevPath = usePreviousRoute();
 
   const [showTransition, setShowTransition] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
 
   useEffect(() => {
-    const previousPath = document.referrer;
-    const isFromNonNestedRoute = !previousPath.includes("/projects/");
-    const isFromProjectPage = searchParams.get("p") === "true";
-    setShowTransition(isFromNonNestedRoute && !isFromProjectPage);
-  }, [searchParams]);
+    const isFromNonNestedRoute =
+      !prevPath ||
+      (!prevPath.startsWith("/projects/") && prevPath !== "/projects");
+    setShowTransition(isFromNonNestedRoute);
+  }, [prevPath]);
 
   useEffect(() => {
     gsap.to("#page", {

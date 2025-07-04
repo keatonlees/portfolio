@@ -1,6 +1,7 @@
 import ImagePreloader from "@/components/navigation/ImagePreloader";
 import Navbar from "@/components/navigation/Navbar";
 import { CursorProvider } from "@/hooks/useCursor";
+import { PreviousRouteProvider } from "@/hooks/usePreviousRoute";
 import type { Metadata } from "next";
 import { ViewTransitions } from "next-view-transitions";
 import { Josefin_Sans, Unbounded } from "next/font/google";
@@ -35,7 +36,7 @@ export default function RootLayout({
           >
             <ImagePreloader />
             <Navbar />
-            {children}
+            <PreviousRouteProvider>{children}</PreviousRouteProvider>
           </body>
         </html>
       </ViewTransitions>
