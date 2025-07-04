@@ -13,9 +13,7 @@ export default function ProjectCard({ p, i, side = false }: ProjectCardProps) {
     <div id={`${p.id}-group`} className={`group ${side && "reorder"} px-8`}>
       <div
         id={`${p.id}-numbering`}
-        className={`${
-          side ? "numbering-space" : "numbering"
-        } flex items-center`}
+        className={`${side ? "mt-[120px]" : "numbering"} flex items-center`}
       >
         <h1 className="text-9xl font-bold mt-6 opacity-25">
           {i + 1 > 9 ? i + 1 : `0${i + 1}`}
