@@ -26,9 +26,9 @@ export default function ProjectCard({ p, i, side = false }: ProjectCardProps) {
         className={`${!side && "content"} flex flex-col justify-center gap-2`}
       >
         <h1 className="font-title font-bold text-shadow text-5xl">{p.name}</h1>
-        <div className="flex gap-1">
+        <div className="flex gap-1 flex-wrap">
           {p.tools.map((tool, i) => (
-            <Chip key={i}>{tool}</Chip>
+            <Chip key={i} icon={tool} />
           ))}
         </div>
       </div>

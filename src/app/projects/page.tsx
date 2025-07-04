@@ -92,7 +92,7 @@ export default function Projects() {
     glance?.classList.toggle("glance-space");
     setTimeout(() => {
       glance?.classList.toggle("glance-align");
-    }, 350);
+    }, 325);
 
     gsap.to(".projectCard-initial", {
       opacity: 0,

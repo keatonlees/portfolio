@@ -31,6 +31,10 @@ export default function RootLayout({
     <CursorProvider>
       <ViewTransitions>
         <html lang="en" data-theme="dark">
+          <head>
+            <link rel="icon" href="/logo_light.png" type="image/png" />
+          </head>
+
           <body
             className={`${josefinSans.className} ${unbounded.variable} antialiased`}
           >
