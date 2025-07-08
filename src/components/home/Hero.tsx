@@ -1,10 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
-import { Github, Instagram, Linkedin, Mail, MapPin } from "lucide-react";
-import CursorCircleText from "./cursors/CursorCircleText";
+import { MapPin } from "lucide-react";
+import Socials from "../base/Socials";
+import CursorCircleText from "../cursors/CursorCircleText";
 
 export default function Hero() {
-  const ICON = 48;
-
   return (
     <div className="w-full h-screen bg-accent">
       <img
@@ -21,12 +20,7 @@ export default function Hero() {
             time
           </h1>
         </div>
-        <div className="flex gap-4">
-          <Mail size={ICON} />
-          <Linkedin size={ICON} />
-          <Github size={ICON} />
-          <Instagram size={ICON} />
-        </div>
+        <Socials />
       </div>
 
       <div className="absolute flex justify-between items-end w-full px-32 bottom-8">

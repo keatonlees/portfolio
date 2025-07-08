@@ -1,4 +1,5 @@
 import { handleBack } from "@/app/projects/actions";
+import { handleLink } from "@/lib/Helpers";
 import { Project } from "@/lib/Types";
 import { ArrowLeft, Github, Link } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -7,11 +8,6 @@ import React from "react";
 interface ButtonBarProps {
   p: Project;
 }
-
-const handleLink = (url: string | null) => {
-  if (!url) return;
-  window.open(url, "_blank", "noreferrer");
-};
 
 export default function ButtonBar({ p }: ButtonBarProps) {
   const router = useRouter();

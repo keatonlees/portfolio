@@ -8,10 +8,16 @@
 /* eslint-disable @next/next/no-img-element */
 import PageTransition from "@/components/navigation/PageTransition";
 import { usePageTransition } from "@/hooks/usePageTransition";
-import React from "react";
+import { usePathname } from "next/navigation";
+import React, { useEffect } from "react";
 
 export default function About() {
+  const pathname = usePathname();
   usePageTransition();
+
+  useEffect(() => {
+    window.scroll(0, 0);
+  }, [pathname]);
 
   return (
     <>

@@ -1,19 +1,19 @@
 "use client";
 
+import Footer from "@/components/base/Footer";
 // hero
 // project spotlight
 // footer
 
-import Hero from "@/components/Hero";
+import Hero from "@/components/home/Hero";
 import PageTransition from "@/components/navigation/PageTransition";
 import { usePageTransition } from "@/hooks/usePageTransition";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
-// /* eslint-disable @next/next/no-img-element */
 export default function Home() {
-  usePageTransition();
   const pathname = usePathname();
+  usePageTransition();
 
   useEffect(() => {
     window.scroll(0, 0);
@@ -24,8 +24,8 @@ export default function Home() {
       <PageTransition />
 
       <Hero />
-
       <div className="relative h-[200vh] z-2 bg-base-100">TEST</div>
+      <Footer />
     </>
   );
 }

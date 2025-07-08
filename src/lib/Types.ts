@@ -5,6 +5,10 @@ export type Project = {
   tools: string[];
   images: string[];
   theme: string;
+  topics: string[];
+  types: string[];
+  roles: string[];
+  timeline: string;
   liveLink: string | null;
   githubLink: string | null;
 };

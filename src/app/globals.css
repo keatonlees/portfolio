@@ -67,3 +67,25 @@
   z-index: 1;
   animation: none !important;
 }
+
+/* Hover Underline */
+.animate-underline {
+  position: relative;
+  display: inline-block;
+}
+.animate-underline::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: -1px;
+  left: 0;
+  background-color: var(--color-secondary);
+  transform-origin: bottom right;
+  transition: transform 0.3s ease-in-out;
+}
+.animate-underline:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
