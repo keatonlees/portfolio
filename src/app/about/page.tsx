@@ -5,7 +5,7 @@
 // skills
 // education
 
-/* eslint-disable @next/next/no-img-element */
+import HeroAbout from "@/components/about/HeroAbout";
 import PageTransition from "@/components/navigation/PageTransition";
 import { usePageTransition } from "@/hooks/usePageTransition";
 import { usePathname } from "next/navigation";
@@ -23,16 +23,7 @@ export default function About() {
     <>
       <PageTransition />
 
-      <div className="w-full h-screen flex flex-col justify-center items-center gap-2">
-        <h1 className="text-8xl font-title">About</h1>
-        <div className="flex">
-          <img
-            src="/images/headshot_grad.jpg"
-            alt="home_img"
-            className="w-96"
-          />
-        </div>
-      </div>
+      <HeroAbout />
     </>
   );
 }

@@ -5,7 +5,7 @@ import Footer from "@/components/base/Footer";
 // project spotlight
 // footer
 
-import Hero from "@/components/home/Hero";
+import HeroHome from "@/components/home/HeroHome";
 import PageTransition from "@/components/navigation/PageTransition";
 import { usePageTransition } from "@/hooks/usePageTransition";
 import { usePathname } from "next/navigation";
@@ -23,7 +23,7 @@ export default function Home() {
     <>
       <PageTransition />
 
-      <Hero />
+      <HeroHome />
       <div className="relative h-[200vh] z-2 bg-base-100">TEST</div>
       <Footer />
     </>

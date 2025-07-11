@@ -3,7 +3,7 @@ import { MapPin } from "lucide-react";
 import Socials from "../base/Socials";
 import CursorCircleText from "../cursors/CursorCircleText";
 
-export default function Hero() {
+export default function HeroHome() {
   return (
     <div className="w-full h-screen bg-accent">
       <img

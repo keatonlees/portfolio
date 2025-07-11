@@ -16,6 +16,7 @@ export default function Navbar() {
   const pathname = usePathname();
 
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isNavigating, setIsNavigating] = useState(false);
 
   const links = [
     { label: "Projects", path: "/projects" },
@@ -76,21 +77,44 @@ export default function Navbar() {
 
   const handleNavigation =
     (path: string) => (e: { preventDefault: () => void }) => {
-      if (path === pathname) {
+      if (path === pathname || isNavigating) {
         e.preventDefault();
         return;
       }
 
-      if (path === "/projects" && !pathname.startsWith("/projects/")) {
-        router.push(path, {
-          onTransitionReady: triggerPageTransition,
-        });
-      } else if (path !== "/projects") {
-        router.push(path, {
-          onTransitionReady: triggerPageTransition,
-        });
-      } else {
-        router.push(path);
+      setIsNavigating(true);
+
+      // Reset navigation state after 5 seconds in case something goes wrong
+      const timeout = setTimeout(() => {
+        setIsNavigating(false);
+      }, 5000);
+
+      try {
+        if (path === "/projects" && !pathname.startsWith("/projects/")) {
+          router.push(path, {
+            onTransitionReady: () => {
+              clearTimeout(timeout);
+              triggerPageTransition();
+              setIsNavigating(false);
+            },
+          });
+        } else if (path !== "/projects") {
+          router.push(path, {
+            onTransitionReady: () => {
+              clearTimeout(timeout);
+              triggerPageTransition();
+              setIsNavigating(false);
+            },
+          });
+        } else {
+          router.push(path);
+          clearTimeout(timeout);
+          setIsNavigating(false);
+        }
+      } catch (error) {
+        console.warn("Navigation error:", error);
+        clearTimeout(timeout);
+        setIsNavigating(false);
       }
     };
 
@@ -193,10 +217,12 @@ export default function Navbar() {
               key={i}
               href={link.path}
               onClick={(e) => {
-                handleNavigation(link.path)(e);
-                setTimeout(() => {
-                  toggleMenu();
-                }, 1000);
+                if (!isNavigating) {
+                  handleNavigation(link.path)(e);
+                  setTimeout(() => {
+                    toggleMenu();
+                  }, 1000);
+                }
               }}
               className={`text-5xl decoration-secondary ${
                 (link.path === pathname ||
