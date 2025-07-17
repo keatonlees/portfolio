@@ -24,6 +24,7 @@ export default function About() {
       <PageTransition />
 
       <HeroAbout />
+      <div className="relative h-[200vh] z-2 bg-base-100">TEST</div>
     </>
   );
 }

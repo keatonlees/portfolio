@@ -1,11 +1,16 @@
+"use client";
+
 /* eslint-disable @next/next/no-img-element */
 import { MapPin } from "lucide-react";
 import Socials from "../base/Socials";
 import CursorCircleText from "../cursors/CursorCircleText";
+import Background from "./Background";
 
 export default function HeroHome() {
   return (
-    <div className="w-full h-screen bg-accent">
+    <div className="w-screen h-screen">
+      <Background />
+
       <img
         src={"/images/headshot.png"}
         alt="hero-img"

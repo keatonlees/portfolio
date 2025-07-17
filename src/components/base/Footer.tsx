@@ -17,7 +17,9 @@ export default function Footer() {
       </div>
 
       <div className="flex-1 text-right flex justify-end">
-        <h1 className="opacity-50">Built with Next.js, Tailwind and GSAP</h1>
+        <h1 className="opacity-50">
+          Built with Next.js, GSAP, Three.js, and WebGL
+        </h1>
       </div>
     </div>
   );
