@@ -1,6 +1,8 @@
+/* eslint-disable @next/next/no-img-element */
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import React, { useEffect, useRef } from "react";
+import CursorWrapper from "../cursors/CursorWrapper";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -8,14 +10,14 @@ interface MarqueeProps {
   items: React.ReactNode[];
   direction?: "up" | "down";
   baseSpeed?: number;
-  delay?: number; // add delay prop
+  delay?: number;
 }
 
 const Marquee: React.FC<MarqueeProps> = ({
   items,
   direction = "down",
   baseSpeed = 40,
-  delay = 0, // default to 0
+  delay = 0,
 }) => {
   const marqueeRef = useRef<HTMLDivElement>(null);
   const velocityRef = useRef(1);
@@ -88,7 +90,7 @@ const Marquee: React.FC<MarqueeProps> = ({
         onComplete: () => {
           const updateVelocity = (self: ScrollTrigger) => {
             const scrollVel = Math.abs(self.getVelocity());
-            velocityRef.current = 1 + scrollVel / 500;
+            velocityRef.current = 1 + scrollVel / 300;
             if (scrollTimeout) clearTimeout(scrollTimeout);
             scrollTimeout = setTimeout(() => {
               velocityRef.current = 1;
@@ -122,45 +124,78 @@ const Marquee: React.FC<MarqueeProps> = ({
         {items.map((item, i) => (
           <div
             key={i}
-            className="bg-neutral w-60 h-80 flex-none flex items-center justify-center rounded-2xl text-5xl"
+            className="bg-neutral w-[40vw] md:w-[12vw] h-[40vh] flex-none flex items-center justify-center rounded-2xl text-5xl"
           >
-            {item}
+            <img
+              className="w-full h-full object-cover rounded-2xl"
+              src={`images/${item}`}
+              alt="about-image"
+            />
           </div>
         ))}
       </div>
-      {/* <div className="pointer-events-none absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-base-100 to-transparent z-10" /> */}
     </div>
   );
 };
 
 export default function HeroAbout() {
-  const marquee_1 = ["1", "2", "3", "4"];
+  const marquee_1 = [
+    "taekwondo.jpg",
+    "track.jpg",
+    "headshot_2.jpg",
+    "headshot_grad.jpg",
+  ];
+  const marquee_2 = ["malaysia.jpg", "taiwan.jpg", "volleyball.jpg", "bbt.jpg"];
+  const marquee_3 = ["film.jpg", "victoria.jpg", "lees.jpg", "market.jpg"];
 
   return (
-    <div className="bg-accent w-screen h-screen flex justify-center items-center">
-      <div className="flex-2 h-full flex justify-center items-center">
+    <div className="bg-accent w-screen h-screen flex justify-center items-center gap-4">
+      <div className="w-1/2 h-full flex justify-center items-center">
         <div className="flex gap-4 h-full">
           <Marquee
             items={marquee_1}
             direction="down"
-            baseSpeed={160}
+            baseSpeed={60}
             delay={0}
           />
-          <Marquee
-            items={marquee_1}
-            direction="up"
-            baseSpeed={160}
-            delay={0.2}
-          />
-          <Marquee
-            items={marquee_1}
-            direction="down"
-            baseSpeed={160}
-            delay={0.4}
-          />
+          <div className="hidden md:block">
+            <Marquee
+              items={marquee_2}
+              direction="up"
+              baseSpeed={50}
+              delay={0.2}
+            />
+          </div>
+          <div className="hidden md:block">
+            <Marquee
+              items={marquee_3}
+              direction="down"
+              baseSpeed={40}
+              delay={0.4}
+            />
+          </div>
         </div>
       </div>
-      <div className="flex-1">About Me</div>
+      <div className="w-1/2 flex flex-col gap-4">
+        <CursorWrapper
+          cursorComponent={
+            <div className="cursor-element ml-12 mb-12">Test</div>
+          }
+        >
+          <h1 className="text-3xl md:text-6xl font-title font-bold text-shadow">
+            About Me
+          </h1>
+        </CursorWrapper>
+        <p>Software Engineer @ Athlix (EliteAI)</p>
+        <p>
+          As a Systems Design Engineering grad from the University of Waterloo,
+          I&apos;ve developed a deep passion for solving complex problems
+          through technology and design. Over the years, I&apos;ve worked in
+          diverse roles that helped me build a strong technical foundation.
+          These well-rounded perspectives taught me how technology can shape the
+          world and change the way we see and do things in life.
+        </p>
+      </div>
     </div>
   );
 }

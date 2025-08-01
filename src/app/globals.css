@@ -35,13 +35,17 @@
   backdrop-filter: blur(var(--glass-blur, 8px));
 }
 
+.w-page {
+  width: 110rem;
+}
+
 /* Page Transition Animation */
 .revealer {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100svh;
+  height: 100dvh; /* Use dynamic viewport height */
   transform-origin: center top;
   background-color: var(--color-secondary);
   pointer-events: none;

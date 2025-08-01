@@ -1,5 +1,6 @@
 "use client";
 
+import { useIsMobile } from "@/hooks/useIsMobile";
 import { triggerPageTransition } from "@/hooks/usePageTransition";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -14,6 +15,7 @@ gsap.registerPlugin(ScrollTrigger);
 export default function Navbar() {
   const router = useTransitionRouter();
   const pathname = usePathname();
+  const isMobile = useIsMobile();
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [isNavigating, setIsNavigating] = useState(false);
@@ -36,14 +38,23 @@ export default function Navbar() {
     ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
 
     if (pathname === "/") {
-      gsap.set("#big-title", {
-        scale: 9,
-        x: "48vw",
-        y: "30vh",
-        xPercent: -50,
-        yPercent: -50,
-        zIndex: 0,
-      });
+      if (isMobile) {
+        gsap.set("#big-title", {
+          scale: 1.8,
+          x: "45vw",
+          y: "20vh",
+          xPercent: -50,
+          yPercent: -50,
+        });
+      } else {
+        gsap.set("#big-title", {
+          scale: 4,
+          x: "50vw",
+          y: "50vh",
+          xPercent: -50,
+          yPercent: -50,
+        });
+      }
 
       gsap.to("#big-title", {
         scrollTrigger: {
@@ -57,7 +68,7 @@ export default function Navbar() {
         y: 0,
         xPercent: 0,
         yPercent: 0,
-        zIndex: 10,
+        gap: 8,
       });
     } else {
       gsap.set("#big-title", {
@@ -73,7 +84,7 @@ export default function Navbar() {
     return () => {
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
-  }, [pathname]);
+  }, [pathname, isMobile]);
 
   const handleNavigation =
     (path: string) => (e: { preventDefault: () => void }) => {
@@ -142,65 +153,69 @@ export default function Navbar() {
   };
 
   return (
-    <div className="fixed w-full h-16 flex justify-between items-center px-8 text-xl z-10 glass-sm">
-      <div>
-        {pathname === "/" ? (
-          <div
-            id="big-title"
-            className="font-title font-bold text-2xl text-shadow relative flex gap-3"
-          >
-            <h1>Keaton</h1>
-            <h1>Lees</h1>
-          </div>
-        ) : (
-          <Link
-            href="/"
-            onClick={handleNavigation("/")}
-            className="animate-underline font-title font-bold text-2xl text-shadow flex gap-3"
-          >
-            <h1>Keaton Lees</h1>
-          </Link>
-        )}
-      </div>
-
-      {/* web */}
-      <div className="hidden md:flex items-center gap-6">
-        {links.map((link, i) => (
-          <Fragment key={i}>
-            <Link
-              href={link.path}
-              onClick={(e) => handleNavigation(link.path)(e)}
-              className={`text-xl decoration-secondary animate-underline ${
-                (link.path === pathname ||
-                  (link.path !== "/" && pathname.startsWith(link.path))) &&
-                "underline underline-offset-8 pointer-events-none"
-              }`}
-              aria-disabled={
-                link.path === pathname ||
-                (link.path !== "/" && pathname.startsWith(link.path))
-              }
+    <>
+      <div className="fixed w-full h-16 flex justify-between items-center text-xl z-10 glass-sm px-4 md:px-8">
+        <div>
+          {pathname === "/" ? (
+            <div
+              id="big-title"
+              className="bg-primary font-title font-bold text-2xl text-shadow relative flex gap-1 md:gap-12"
             >
-              {link.label}
+              <h1>Keaton</h1>
+              <h1>Lees</h1>
+            </div>
+          ) : (
+            <Link
+              href="/"
+              onClick={handleNavigation("/")}
+              className="animate-underline font-title font-bold text-2xl text-shadow flex gap-3"
+            >
+              <h1>Keaton Lees</h1>
             </Link>
-            {i < links.length - 1 && <span>/</span>}
-          </Fragment>
-        ))}
+          )}
+        </div>
+
+        {/* web */}
+        <div className="hidden md:flex items-center gap-6">
+          {links.map((link, i) => (
+            <Fragment key={i}>
+              <Link
+                href={link.path}
+                onClick={(e) => handleNavigation(link.path)(e)}
+                className={`text-xl decoration-secondary animate-underline ${
+                  (link.path === pathname ||
+                    (link.path !== "/" && pathname.startsWith(link.path))) &&
+                  "underline underline-offset-8 pointer-events-none"
+                }`}
+                aria-disabled={
+                  link.path === pathname ||
+                  (link.path !== "/" && pathname.startsWith(link.path))
+                }
+              >
+                {link.label}
+              </Link>
+              {i < links.length - 1 && <span>/</span>}
+            </Fragment>
+          ))}
+        </div>
+
+        {/* mobile */}
+        <div className="flex md:hidden">
+          <button
+            className="text-2xl decoration-secondary cursor-pointer mt-1"
+            onClick={toggleMenu}
+          >
+            Menu
+          </button>
+        </div>
       </div>
 
-      {/* mobile */}
-      <div className="flex md:hidden">
-        <button
-          className="text-2xl decoration-secondary cursor-pointer mt-1"
-          onClick={toggleMenu}
-        >
-          Menu
-        </button>
-      </div>
+      {/* Mobile menu - rendered outside navbar container */}
       <div
         id="mobile-menu"
-        className="flex flex-col md:hidden absolute bg-accent top-0 left-0 w-screen h-screen"
+        className="flex flex-col md:hidden fixed h-screen bg-accent top-0 left-0 w-screen z-[100]"
       >
-        <div className="w-full h-16 flex justify-between items-center p-8">
+        <div className="w-full h-16 flex justify-between items-center p-4">
           <h1 className="font-title font-bold text-2xl text-shadow">
             Keaton Lees
           </h1>
@@ -211,7 +226,7 @@ export default function Navbar() {
             Close
           </button>
         </div>
-        <div className="h-full flex flex-col justify-center gap-4 px-8">
+        <div className="h-full flex flex-col justify-center gap-4 px-4">
           {mobileLinks.map((link, i) => (
             <Link
               key={i}
@@ -238,10 +253,10 @@ export default function Navbar() {
             </Link>
           ))}
         </div>
-        <div className="w-full py-4 flex justify-end items-center px-8">
+        <div className="w-full py-4 flex justify-end items-center px-4">
           <Socials size="md" />
         </div>
       </div>
-    </div>
+    </>
   );
 }

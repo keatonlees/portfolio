@@ -40,6 +40,14 @@ export default function Background() {
   useEffect(() => {
     if (!canvasRef.current) return;
 
+    // Get the maximum possible viewport height (screen height)
+    const maxHeight = Math.max(
+      window.screen.height,
+      window.innerHeight,
+      document.documentElement.clientHeight,
+      window.visualViewport?.height || 0
+    );
+
     // Initialize Three.js scene
     const scene = new THREE.Scene();
     sceneRef.current = scene;
@@ -48,7 +56,10 @@ export default function Background() {
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     rendererRef.current = renderer;
 
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    const width = window.innerWidth;
+    const height = maxHeight;
+
+    renderer.setSize(width, height);
     renderer.domElement.style.position = "absolute";
     renderer.domElement.style.top = "0";
     renderer.domElement.style.left = "0";
@@ -58,26 +69,18 @@ export default function Background() {
     canvasRef.current.appendChild(renderer.domElement);
 
     // Create render targets
-    const fluidTarget1 = new THREE.WebGLRenderTarget(
-      window.innerWidth,
-      window.innerHeight,
-      {
-        minFilter: THREE.LinearFilter,
-        magFilter: THREE.LinearFilter,
-        format: THREE.RGBAFormat,
-        type: THREE.FloatType,
-      }
-    );
-    const fluidTarget2 = new THREE.WebGLRenderTarget(
-      window.innerWidth,
-      window.innerHeight,
-      {
-        minFilter: THREE.LinearFilter,
-        magFilter: THREE.LinearFilter,
-        format: THREE.RGBAFormat,
-        type: THREE.FloatType,
-      }
-    );
+    const fluidTarget1 = new THREE.WebGLRenderTarget(width, height, {
+      minFilter: THREE.LinearFilter,
+      magFilter: THREE.LinearFilter,
+      format: THREE.RGBAFormat,
+      type: THREE.FloatType,
+    });
+    const fluidTarget2 = new THREE.WebGLRenderTarget(width, height, {
+      minFilter: THREE.LinearFilter,
+      magFilter: THREE.LinearFilter,
+      format: THREE.RGBAFormat,
+      type: THREE.FloatType,
+    });
 
     let currentFluidTarget = fluidTarget1;
     let previousFluidTarget = fluidTarget2;
@@ -88,7 +91,7 @@ export default function Background() {
       uniforms: {
         iTime: { value: 0 },
         iResolution: {
-          value: new THREE.Vector2(window.innerWidth, window.innerHeight),
+          value: new THREE.Vector2(width, height),
         },
         iMouse: { value: new THREE.Vector4(0, 0, 0, 0) },
         iFrame: { value: 0 },
@@ -107,7 +110,7 @@ export default function Background() {
       uniforms: {
         iTime: { value: 0 },
         iResolution: {
-          value: new THREE.Vector2(window.innerWidth, window.innerHeight),
+          value: new THREE.Vector2(width, height),
         },
         iFluid: { value: null },
         uDistortionAmount: { value: config.distortionAmount },
@@ -156,24 +159,6 @@ export default function Background() {
     const handleMouseLeave = () => {
       fluidMaterial.uniforms.iMouse.value.set(0, 0, 0, 0);
     };
-
-    const handleResize = () => {
-      const width = window.innerWidth;
-      const height = window.innerHeight;
-
-      renderer.setSize(width, height);
-      fluidMaterial.uniforms.iResolution.value.set(width, height);
-      displayMaterial.uniforms.iResolution.value.set(width, height);
-
-      fluidTarget1.setSize(width, height);
-      fluidTarget2.setSize(width, height);
-      frameCount = 0;
-    };
-
-    // Add event listeners
-    document.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseleave", handleMouseLeave);
-    window.addEventListener("resize", handleResize);
 
     // Animation loop
     const animate = () => {
@@ -229,6 +214,10 @@ export default function Background() {
 
     animate();
 
+    // Add event listeners (only mouse events, no resize)
+    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseleave", handleMouseLeave);
+
     // Cleanup function
     return () => {
       if (animationFrameRef.current) {
@@ -237,7 +226,6 @@ export default function Background() {
 
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseleave", handleMouseLeave);
-      window.removeEventListener("resize", handleResize);
 
       if (rendererRef.current) {
         rendererRef.current.dispose();
@@ -262,7 +250,7 @@ export default function Background() {
     <div
       ref={canvasRef}
       id="gradient-canvas"
-      className="relative w-full h-full overflow-hidden"
+      className="absolute w-screen h-screen overflow-hidden -z-10"
     />
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
+import { useIsMobile } from "./useIsMobile";
 
 type CursorContextType = {
   setCursorComponent: (component: React.ReactNode) => void;
@@ -16,13 +17,17 @@ export const useCursor = () => {
 };
 
 export const CursorProvider = ({ children }: { children: React.ReactNode }) => {
+  const isMobile = useIsMobile();
+
   const [cursorComponent, setCursorComponent] =
     useState<React.ReactNode | null>(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     const move = (e: MouseEvent) => {
-      setPosition({ x: e.clientX, y: e.clientY });
+      setTimeout(() => {
+        setPosition({ x: e.clientX, y: e.clientY });
+      }, 50);
     };
     window.addEventListener("mousemove", move);
     return () => window.removeEventListener("mousemove", move);
@@ -41,7 +46,7 @@ export const CursorProvider = ({ children }: { children: React.ReactNode }) => {
           zIndex: 9999,
         }}
       >
-        {cursorComponent}
+        {isMobile ? null : cursorComponent}
       </div>
     </CursorContext.Provider>
   );

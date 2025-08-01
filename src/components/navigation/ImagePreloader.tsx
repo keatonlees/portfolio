@@ -4,11 +4,21 @@ import { useEffect, useState } from "react";
 import LoadingScreen from "./LoadingScreen";
 
 const imagesToPreload = [
-  "/images/headshot.png",
+  // HeroHome.tsx
+  "/images/headshot_nobg.png",
+  // HeroAbout.tsx
   "/images/headshot_2.png",
   "/images/headshot_grad.jpg",
-  "/images/ab_taekwondo.jpg",
-  "/images/ab_track.jpg",
+  "/images/taekwondo.jpg",
+  "/images/track.jpg",
+  "/images/malaysia.jpg",
+  "/images/taiwan.jpg",
+  "/images/volleyball.jpg",
+  "/images/bbt.jpg",
+  "/images/film.jpg",
+  "/images/victoria.jpg",
+  "/images/lees.jpg",
+  "/images/market.jpg",
 ];
 
 export default function ImagePreloader() {
