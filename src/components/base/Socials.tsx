@@ -6,16 +6,18 @@ interface SocialsProps {
   size?: "sm" | "md" | "lg";
 }
 
+// TODO: big footer?
+
 export default function Socials({ size = "md" }: SocialsProps) {
   const SIZES = {
-    sm: 28,
+    sm: 24,
     md: 40,
     lg: 48,
   };
   const classes = "cursor-pointer duration-300 opacity-50 hover:opacity-100";
 
   return (
-    <div className="flex gap-4">
+    <div className="flex gap-3 md:gap-4">
       <Mail
         size={SIZES[size]}
         className={classes}
