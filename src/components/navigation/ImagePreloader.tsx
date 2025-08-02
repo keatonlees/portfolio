@@ -7,7 +7,7 @@ const imagesToPreload = [
   // HeroHome.tsx
   "/images/headshot_nobg.png",
   // HeroAbout.tsx
-  "/images/headshot_2.png",
+  "/images/headshot_2.jpg",
   "/images/headshot_grad.jpg",
   "/images/taekwondo.jpg",
   "/images/track.jpg",

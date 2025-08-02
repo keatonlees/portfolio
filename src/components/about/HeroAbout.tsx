@@ -149,7 +149,7 @@ export default function HeroAbout() {
   const marquee_3 = ["film.jpg", "victoria.jpg", "lees.jpg", "market.jpg"];
 
   return (
-    <div className="bg-accent w-screen h-screen flex justify-center items-center gap-4">
+    <div className="bg-accent w-screen h-screen flex justify-center items-center gap-4 overflow-hidden">
       <div className="w-1/2 h-full flex justify-center items-center">
         <div className="flex gap-4 h-full">
           <Marquee

@@ -19,7 +19,7 @@ export default function About() {
       <div className="w-full h-screen flex flex-col justify-center items-center gap-2">
         <h1 className="text-8xl font-title">Fun</h1>
         <div className="flex">
-          <img src="/images/headshot_2.png" alt="home_img" className="w-96" />
+          <img src="/images/headshot_2.jpg" alt="home_img" className="w-96" />
         </div>
       </div>
     </>

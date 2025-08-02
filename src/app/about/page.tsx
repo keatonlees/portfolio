@@ -1,28 +1,34 @@
 "use client";
 
+import Education from "@/components/about/Educations";
 // blurb
 // work experience
 // skills
 // education
 
+import Experience from "@/components/about/Experience";
 import HeroAbout from "@/components/about/HeroAbout";
+import Skills from "@/components/about/Skills";
+import Footer from "@/components/base/Footer";
 import PermanentCursor from "@/components/cursors/PermanentCursor";
 import PageTransition from "@/components/navigation/PageTransition";
+import ScrollProgress from "@/components/navigation/ScrollProgress";
 import { useCursor } from "@/hooks/useCursor";
 import { usePageTransition } from "@/hooks/usePageTransition";
+import { useScroll } from "motion/react";
 import { usePathname } from "next/navigation";
 import React, { useEffect } from "react";
 
 export default function About() {
+  usePageTransition();
   const pathname = usePathname();
   const { setCursorComponent } = useCursor();
-  usePageTransition();
+  const { scrollYProgress } = useScroll();
 
   useEffect(() => {
     window.scroll(0, 0);
   }, [pathname]);
 
-  // Set a permanent cursor component that always follows the mouse
   useEffect(() => {
     setCursorComponent(<PermanentCursor />);
     return () => setCursorComponent(null);
@@ -31,10 +37,14 @@ export default function About() {
   return (
     <>
       <PageTransition />
+      <ScrollProgress progress={scrollYProgress} />
 
       <HeroAbout />
+      <Experience />
+      <Skills />
+      <Education />
 
-      <div className="relative h-[200vh] z-2 bg-base-100 p-8 space-y-8"></div>
+      <Footer />
     </>
   );
 }
