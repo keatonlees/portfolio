@@ -5,7 +5,7 @@ import Socials from "./Socials";
 
 export default function Footer() {
   return (
-    <div className="bg-accent px-4 md:px-32 py-8 flex justify-center items-center">
+    <div className="projectFadeOut bg-accent px-4 md:px-32 py-8 flex justify-center items-center">
       <div className="flex-1">
         <h1 className="opacity-50">
           &copy;{new Date().getFullYear()} Keaton Lees

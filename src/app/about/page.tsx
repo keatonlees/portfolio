@@ -1,11 +1,11 @@
 "use client";
 
-import Education from "@/components/about/Educations";
 // blurb
 // work experience
 // skills
 // education
 
+import Education from "@/components/about/Educations";
 import Experience from "@/components/about/Experience";
 import HeroAbout from "@/components/about/HeroAbout";
 import Skills from "@/components/about/Skills";

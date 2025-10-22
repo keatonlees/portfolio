@@ -1,10 +1,10 @@
 "use client";
 
-import Footer from "@/components/base/Footer";
 // hero
 // project spotlight
 // footer
 
+import Footer from "@/components/base/Footer";
 import HeroHome from "@/components/home/HeroHome";
 import PageTransition from "@/components/navigation/PageTransition";
 import { usePageTransition } from "@/hooks/usePageTransition";
