@@ -12,10 +12,10 @@
 import Footer from "@/components/base/Footer";
 import ScrollProgress from "@/components/base/ScrollProgress";
 import PermanentCursor from "@/components/cursors/PermanentCursor";
-import PageTransition from "@/components/navigation/PageTransition";
+// import PageTransition from "@/components/navigation/PageTransition";
 import CardsLayout from "@/components/projects/CardsLayout";
 import { useCursor } from "@/hooks/useCursor";
-import { usePageTransition } from "@/hooks/usePageTransition";
+// import { usePageTransition } from "@/hooks/usePageTransition";
 import { usePreviousRoute } from "@/hooks/usePreviousRoute";
 import { useScroll } from "motion/react";
 import { usePathname } from "next/navigation";
@@ -44,10 +44,10 @@ export default function Projects() {
     return () => setCursorComponent(null);
   }, [setCursorComponent]);
 
-  usePageTransition(showTransition);
+  // usePageTransition(showTransition);
   return (
     <>
-      {showTransition && <PageTransition />}
+      {/* {showTransition && <PageTransition />} */}
       <ScrollProgress progress={scrollYProgress} />
 
       <CardsLayout />

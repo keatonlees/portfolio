@@ -115,3 +115,13 @@
   will-change: transform;
   z-index: 1;
 }
+
+.strip {
+  transform: translateZ(0); /* improve GPU smoothing */
+  image-rendering: pixelated; /* optional */
+}
+
+.will-change-transform {
+  will-change: transform;
+  transform: translateZ(0);
+}

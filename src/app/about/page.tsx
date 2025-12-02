@@ -12,15 +12,15 @@ import Skills from "@/components/about/Skills";
 import Footer from "@/components/base/Footer";
 import ScrollProgress from "@/components/base/ScrollProgress";
 import PermanentCursor from "@/components/cursors/PermanentCursor";
-import PageTransition from "@/components/navigation/PageTransition";
+// import PageTransition from "@/components/navigation/PageTransition";
 import { useCursor } from "@/hooks/useCursor";
-import { usePageTransition } from "@/hooks/usePageTransition";
+// import { usePageTransition } from "@/hooks/usePageTransition";
 import { useScroll } from "motion/react";
 import { usePathname } from "next/navigation";
 import React, { useEffect } from "react";
 
 export default function About() {
-  usePageTransition();
+  // usePageTransition();
   const pathname = usePathname();
   const { setCursorComponent } = useCursor();
   const { scrollYProgress } = useScroll();
@@ -36,7 +36,7 @@ export default function About() {
 
   return (
     <>
-      <PageTransition />
+      {/* <PageTransition /> */}
       <ScrollProgress progress={scrollYProgress} />
 
       <HeroAbout />

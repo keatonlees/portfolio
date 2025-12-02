@@ -1,21 +1,21 @@
 "use client";
 
-import { useIsMobile } from "@/hooks/useIsMobile";
-import { triggerPageTransition } from "@/hooks/usePageTransition";
+// import { useIsMobile } from "@/hooks/useIsMobile";
+// import { triggerPageTransition } from "@/hooks/usePageTransition";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useTransitionRouter } from "next-view-transitions";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React, { Fragment, useEffect, useState } from "react";
 import Socials from "../base/Socials";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Navbar() {
-  const router = useTransitionRouter();
+  const router = useRouter();
   const pathname = usePathname();
-  const isMobile = useIsMobile();
+  // const isMobile = useIsMobile();
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [isNavigating, setIsNavigating] = useState(false);
@@ -34,99 +34,101 @@ export default function Navbar() {
     { label: "Resume", path: "/resume" },
   ];
 
-  useEffect(() => {
-    ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+  // useEffect(() => {
+  //   ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
 
-    if (pathname === "/") {
-      if (isMobile) {
-        gsap.set("#big-title", {
-          scale: 1.8,
-          x: "45vw",
-          y: "20vh",
-          xPercent: -50,
-          yPercent: -50,
-        });
-      } else {
-        gsap.set("#big-title", {
-          scale: 4,
-          x: "50vw",
-          y: "50vh",
-          xPercent: -50,
-          yPercent: -50,
-        });
-      }
+  //   if (pathname === "/") {
+  //     if (isMobile) {
+  //       gsap.set("#big-title", {
+  //         scale: 1.8,
+  //         x: "45vw",
+  //         y: "20vh",
+  //         xPercent: -50,
+  //         yPercent: -50,
+  //       });
+  //     } else {
+  //       gsap.set("#big-title", {
+  //         scale: 4,
+  //         x: "50vw",
+  //         y: "50vh",
+  //         xPercent: -50,
+  //         yPercent: -50,
+  //       });
+  //     }
 
-      gsap.to("#big-title", {
-        scrollTrigger: {
-          trigger: "body",
-          start: "top top",
-          end: "+=40%",
-          scrub: 0.4,
-        },
-        scale: 1,
-        x: 0,
-        y: 0,
-        xPercent: 0,
-        yPercent: 0,
-        gap: 8,
-      });
-    } else {
-      gsap.set("#big-title", {
-        scale: 1,
-        x: 0,
-        y: 0,
-        xPercent: 0,
-        yPercent: 0,
-        clearProps: "all",
-      });
-    }
+  //     gsap.to("#big-title", {
+  //       scrollTrigger: {
+  //         trigger: "body",
+  //         start: "top top",
+  //         end: "+=40%",
+  //         scrub: 0.4,
+  //       },
+  //       scale: 1,
+  //       x: 0,
+  //       y: 0,
+  //       xPercent: 0,
+  //       yPercent: 0,
+  //       gap: 8,
+  //     });
+  //   } else {
+  //     gsap.set("#big-title", {
+  //       scale: 1,
+  //       x: 0,
+  //       y: 0,
+  //       xPercent: 0,
+  //       yPercent: 0,
+  //       clearProps: "all",
+  //     });
+  //   }
 
-    return () => {
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-    };
-  }, [pathname, isMobile]);
+  //   return () => {
+  //     ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+  //   };
+  // }, [pathname, isMobile]);
 
   const handleNavigation =
     (path: string) => (e: { preventDefault: () => void }) => {
-      if (path === pathname || isNavigating) {
-        e.preventDefault();
-        return;
-      }
+      router.push(path);
 
-      setIsNavigating(true);
+      // if (path === pathname || isNavigating) {
+      //   e.preventDefault();
+      //   return;
+      // }
 
-      // Reset navigation state after 5 seconds in case something goes wrong
-      const timeout = setTimeout(() => {
-        setIsNavigating(false);
-      }, 5000);
+      // setIsNavigating(true);
 
-      try {
-        if (path === "/projects" && !pathname.startsWith("/projects/")) {
-          router.push(path, {
-            onTransitionReady: () => {
-              clearTimeout(timeout);
-              triggerPageTransition();
-              setIsNavigating(false);
-            },
-          });
-        } else if (path !== "/projects") {
-          router.push(path, {
-            onTransitionReady: () => {
-              clearTimeout(timeout);
-              triggerPageTransition();
-              setIsNavigating(false);
-            },
-          });
-        } else {
-          router.push(path);
-          clearTimeout(timeout);
-          setIsNavigating(false);
-        }
-      } catch (error) {
-        console.warn("Navigation error:", error);
-        clearTimeout(timeout);
-        setIsNavigating(false);
-      }
+      // // Reset navigation state after 5 seconds in case something goes wrong
+      // const timeout = setTimeout(() => {
+      //   setIsNavigating(false);
+      // }, 5000);
+
+      // try {
+      //   if (path === "/projects" && !pathname.startsWith("/projects/")) {
+      //     router.push(path, {
+      //       onTransitionReady: () => {
+      //         clearTimeout(timeout);
+      //         // triggerPageTransition();
+      //         setIsNavigating(false);
+      //       },
+      //     });
+      //   } else if (path !== "/projects") {
+      //     router.push(path, {
+      //       onTransitionReady: () => {
+      //         clearTimeout(timeout);
+      //         // triggerPageTransition();
+      //         setIsNavigating(false);
+      //       },
+      //     });
+      //   } else {
+      //     router.push(path);
+      //     clearTimeout(timeout);
+      //     setIsNavigating(false);
+      //   }
+      // } catch (error) {
+      //   console.warn("Navigation error:", error);
+      //   clearTimeout(timeout);
+      //   setIsNavigating(false);
+      // }
     };
 
   useEffect(() => {
