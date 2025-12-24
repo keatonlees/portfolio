@@ -11,7 +11,7 @@ export default function HeroHome() {
     <div className="relative w-screen h-screen flex justify-center overflow-hidden">
       <Background />
 
-      <div className="relative w-[1600px] h-full bg-accent">
+      <div className="relative w-[1600px] h-full">
         <img
           src={"/images/headshot_nobg.png"}
           alt="hero-img"

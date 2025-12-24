@@ -27,7 +27,7 @@ export default function Home() {
       <ReactLenis root />
       {/* <PageTransition /> */}
 
-      {/* <HeroHome /> */}
+      <HeroHome />
 
       <div className="h-[100vh]"></div>
 
