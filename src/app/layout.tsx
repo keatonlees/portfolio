@@ -2,12 +2,30 @@
 
 import Navbar from "@/components/navigation/Navbar";
 import Preloader from "@/components/navigation/Preloader";
-import TransitionOverlay from "@/components/navigation/TransitionOverlay";
+import { TransitionProvider } from "@/contexts/TransitionContext";
 import { CursorProvider } from "@/hooks/useCursor";
+import gsap from "gsap";
 import { Josefin_Sans, Unbounded } from "next/font/google";
-import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import "./globals.css";
+
+function FadeInOnMount({ children }: { children: React.ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null);
+  useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    gsap.fromTo(
+      el,
+      { opacity: 0 },
+      { opacity: 1, duration: 0.5, ease: "power2.out" },
+    );
+  }, []);
+  return (
+    <div ref={ref} style={{ opacity: 0 }}>
+      {children}
+    </div>
+  );
+}
 
 const josefinSans = Josefin_Sans({
   subsets: ["latin"],
@@ -29,26 +47,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const pathname = usePathname();
   const [showPreloader, setShowPreloader] = useState(true);
-  const [preloaderComplete, setPreloaderComplete] = useState(false);
-  const previousPathname = useRef<string | null>(null);
-
-  useEffect(() => {
-    if (!showPreloader && !preloaderComplete) {
-      setPreloaderComplete(true);
-      previousPathname.current = pathname;
-    }
-  }, [showPreloader, preloaderComplete, pathname]);
-
-  const isPageNavigation =
-    preloaderComplete &&
-    previousPathname.current !== null &&
-    previousPathname.current !== pathname;
-
-  const handleTransitionComplete = () => {
-    previousPathname.current = pathname;
-  };
 
   return (
     <CursorProvider>
@@ -63,17 +62,12 @@ export default function RootLayout({
               }}
             />
           ) : (
-            <TransitionOverlay
-              isNavigation={isPageNavigation}
-              onTransitionComplete={handleTransitionComplete}
-            >
-              {() => (
-                <>
-                  <Navbar />
-                  {children}
-                </>
-              )}
-            </TransitionOverlay>
+            <FadeInOnMount>
+              <TransitionProvider>
+                <Navbar />
+                {children}
+              </TransitionProvider>
+            </FadeInOnMount>
           )}
         </body>
       </html>

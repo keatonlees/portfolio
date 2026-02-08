@@ -2,29 +2,26 @@
 
 // import { useIsMobile } from "@/hooks/useIsMobile";
 // import { triggerPageTransition } from "@/hooks/usePageTransition";
+import { TransitionContext } from "@/contexts/TransitionContext";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useTransitionRouter } from "next-view-transitions";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import React, { Fragment, useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 import Socials from "../base/Socials";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Navbar() {
-  const router = useRouter();
   const pathname = usePathname();
-  // const isMobile = useIsMobile();
-
+  const transition = useContext(TransitionContext);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [isNavigating, setIsNavigating] = useState(false);
 
   const links = [
     { label: "Projects", path: "/projects" },
     { label: "About", path: "/about" },
-    { label: "Stash", path: "/stash" },
-    { label: "Resume", path: "/resume" },
+    // { label: "Stash", path: "/stash" },
+    // { label: "Resume", path: "/resume" },
   ];
   const mobileLinks = [
     { label: "Home", path: "/" },
@@ -86,50 +83,13 @@ export default function Navbar() {
   //   };
   // }, [pathname, isMobile]);
 
-  const handleNavigation =
-    (path: string) => (e: { preventDefault: () => void }) => {
-      router.push(path);
-
-      // if (path === pathname || isNavigating) {
-      //   e.preventDefault();
-      //   return;
-      // }
-
-      // setIsNavigating(true);
-
-      // // Reset navigation state after 5 seconds in case something goes wrong
-      // const timeout = setTimeout(() => {
-      //   setIsNavigating(false);
-      // }, 5000);
-
-      // try {
-      //   if (path === "/projects" && !pathname.startsWith("/projects/")) {
-      //     router.push(path, {
-      //       onTransitionReady: () => {
-      //         clearTimeout(timeout);
-      //         // triggerPageTransition();
-      //         setIsNavigating(false);
-      //       },
-      //     });
-      //   } else if (path !== "/projects") {
-      //     router.push(path, {
-      //       onTransitionReady: () => {
-      //         clearTimeout(timeout);
-      //         // triggerPageTransition();
-      //         setIsNavigating(false);
-      //       },
-      //     });
-      //   } else {
-      //     router.push(path);
-      //     clearTimeout(timeout);
-      //     setIsNavigating(false);
-      //   }
-      // } catch (error) {
-      //   console.warn("Navigation error:", error);
-      //   clearTimeout(timeout);
-      //   setIsNavigating(false);
-      // }
-    };
+  const handleNavigation = (path: string) => (e: React.MouseEvent) => {
+    e.preventDefault();
+    const isActive =
+      path === pathname || (path !== "/" && pathname.startsWith(path));
+    if (isActive || !transition) return;
+    transition.navigateWithTransition(path);
+  };
 
   useEffect(() => {
     gsap.set("#mobile-menu", {
@@ -156,7 +116,7 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="fixed w-full h-16 flex justify-between items-center text-xl z-10 glass-sm px-4 md:px-8">
+      <div className="fixed w-full h-16 flex justify-between items-center text-xl z-[10000] glass-sm px-4 md:px-8">
         <div>
           {pathname === "/" ? (
             <div
@@ -215,7 +175,7 @@ export default function Navbar() {
       {/* Mobile menu - rendered outside navbar container */}
       <div
         id="mobile-menu"
-        className="flex flex-col md:hidden fixed h-screen bg-accent top-0 left-0 w-screen z-[100]"
+        className="flex flex-col md:hidden fixed h-screen bg-accent top-0 left-0 w-screen z-[10001]"
       >
         <div className="w-full h-16 flex justify-between items-center p-4">
           <h1 className="font-title font-bold text-2xl text-shadow">
@@ -234,12 +194,8 @@ export default function Navbar() {
               key={i}
               href={link.path}
               onClick={(e) => {
-                if (!isNavigating) {
-                  handleNavigation(link.path)(e);
-                  setTimeout(() => {
-                    toggleMenu();
-                  }, 1000);
-                }
+                handleNavigation(link.path)(e);
+                setTimeout(toggleMenu, 400);
               }}
               className={`text-5xl decoration-secondary ${
                 (link.path === pathname ||
